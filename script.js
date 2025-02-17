@@ -142,7 +142,7 @@ function addExpenseToTable(expense) {
     <td><button class="delete-btn" data-id="${expense.id}"><ion-icon name="trash-outline"></ion-icon></button></td>
   `;
   expenseTableBody.appendChild(row);
-  updateBorderRadius()
+  updateBorderRadius();
 }
 
 function saveToLocalStorage() {
@@ -221,12 +221,22 @@ function updateBorderRadius() {
     cells.forEach(cell => {
       cell.style.borderRadius = "0"; 
     });
-    if (index === 0) {
+
+    if (rows.length === 1) {
       cells[0].style.borderTopLeftRadius = "20px";
       cells[cells.length - 1].style.borderTopRightRadius = "20px";
-    } else if (index === rows.length - 1) {
       cells[0].style.borderBottomLeftRadius = "20px";
       cells[cells.length - 1].style.borderBottomRightRadius = "20px";
+    } else {
+      if (index === 0) {
+        cells[0].style.borderTopLeftRadius = "20px";
+        cells[cells.length - 1].style.borderTopRightRadius = "20px";
+      } 
+      if (index === rows.length - 1) {
+        cells[0].style.borderBottomLeftRadius = "20px";
+        cells[cells.length - 1].style.borderBottomRightRadius = "20px";
+      }
     }
   });
 }
+
