@@ -235,7 +235,7 @@ main {
     grid-column: 2/-1;
     grid-row: 2/-1;
   }
-  @media (max-width: 460px) {
+  @media (max-width: 465px) {
     grid-column: 1/-1;
     grid-row: 3/-1;
   }
