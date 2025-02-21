@@ -61,19 +61,23 @@ function calculateCategory() {
     if (key === maxCategory) {
       const mostSpentTag = document.createElement("span");
       mostSpentTag.className = "most-spent-tag";
-      mostSpentTag.textContent = "Most Spent On";
+      const icon = document.createElement("ion-icon");
+      icon.setAttribute("name", "star");
+      icon.className = "star-icon";
+      mostSpentTag.appendChild(icon);
+      mostSpentTag.appendChild(document.createTextNode(" Most Spent On"));
+
       div.appendChild(mostSpentTag);
       div.style.background =
-        "linear-gradient(to bottom right,rgb(166, 115, 210), black)";
+        "linear-gradient(to bottom right, rgb(166, 115, 210), black)";
     }
   }
-
 }
 
 function calculateTotal() {
   const data = JSON.parse(localStorage.getItem("allExpenses")) || [];
   let total = 0;
-console.log(data)
+  console.log(data);
   for (let i = 0; i < data.length; i++) {
     if (data[i].amount) {
       total += Number(data[i].amount);
@@ -99,7 +103,15 @@ document.addEventListener("click", function (event) {
     const category = categorySelect.value;
 
     if (validateForm(name, date, amount, category)) {
-      const expense = { id: Date.now(), name, date, amount, category };
+      const formattedDate = formatDate(date);
+      console.log(formattedDate);
+      const expense = {
+        id: Date.now(),
+        name,
+        date: formattedDate,
+        amount,
+        category,
+      };
       allExpenses.push(expense);
       addExpenseToTable(expense);
       saveToLocalStorage();
@@ -126,7 +138,7 @@ document.addEventListener("click", function (event) {
         table.style.display = "none";
         no_data.style.display = "block";
       }
-      updateBorderRadius()
+      updateBorderRadius();
     }
   }
 });
@@ -215,10 +227,10 @@ function showPopup(message) {
   }, 1500);
 }
 function updateBorderRadius() {
-  const rows = expenseTableBody.querySelectorAll('tr');
+  const rows = expenseTableBody.querySelectorAll("tr");
   rows.forEach((row, index) => {
-    const cells = row.querySelectorAll('td');
-    cells.forEach(cell => {
+    const cells = row.querySelectorAll("td");
+    cells.forEach((cell) => {
       cell.style.borderRadius = "0";
     });
 
@@ -239,4 +251,10 @@ function updateBorderRadius() {
     }
   });
 }
-
+function formatDate(inputDate) {
+  const dateObj = new Date(inputDate);
+  const day = String(dateObj.getDate()).padStart(2, "0");
+  const month = String(dateObj.getMonth() + 1).padStart(2, "0"); // Months are 0-based
+  const year = dateObj.getFullYear();
+  return `${day}-${month}-${year}`;
+}
