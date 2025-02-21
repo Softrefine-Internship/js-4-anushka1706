@@ -36,9 +36,10 @@ body {
 .greetings {
   font-size: 3rem;
   font-weight: 400;
-  font-family: "Love Ya Like A Sister";
+  /* font-family: "Love Ya Like A Sister"; */
   letter-spacing: 1.2px;
   color: rgb(158, 137, 161);
+  text-transform: capitalize;
   padding-bottom: 5px;
   width: max-content;
 }
@@ -397,19 +398,20 @@ th {
   display: flex;
   padding: 1rem;
   align-items: center;
+  background-color: rgb(177, 173, 173);
   border-radius: 10px;
   transition: background-color 0.4s;
   gap: 8px;
   &:hover {
     cursor: pointer;
-    background-color: rgb(177, 173, 173);
+    background-color: rgb(111, 109, 109);
   }
 }
 .header {
   padding: 1rem 2rem;
   display: flex;
   justify-content: space-between;
-  background-color: rgb(194, 194, 194);
+  background-color: rgb(22, 20, 20);
 }
 .nav-li {
   list-style: none;
@@ -424,7 +426,7 @@ th {
 }
 .logo-img {
   height: 4rem;
-  mix-blend-mode: multiply;
+  /* mix-blend-mode: multiply; */
   background-color: transparent;
   width: 7rem;
 }
@@ -438,6 +440,7 @@ th {
 }
 .logo-name {
   font-size: 2rem;
+  color: whitesmoke;
 }
 .most-spent-tag {
   font-size: 1rem;

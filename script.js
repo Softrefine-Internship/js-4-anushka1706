@@ -219,7 +219,7 @@ function updateBorderRadius() {
   rows.forEach((row, index) => {
     const cells = row.querySelectorAll('td');
     cells.forEach(cell => {
-      cell.style.borderRadius = "0"; 
+      cell.style.borderRadius = "0";
     });
 
     if (rows.length === 1) {
@@ -231,7 +231,7 @@ function updateBorderRadius() {
       if (index === 0) {
         cells[0].style.borderTopLeftRadius = "20px";
         cells[cells.length - 1].style.borderTopRightRadius = "20px";
-      } 
+      }
       if (index === rows.length - 1) {
         cells[0].style.borderBottomLeftRadius = "20px";
         cells[cells.length - 1].style.borderBottomRightRadius = "20px";
