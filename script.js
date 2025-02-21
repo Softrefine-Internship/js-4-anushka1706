@@ -113,8 +113,8 @@ document.addEventListener("click", function (event) {
         category,
       };
       allExpenses.push(expense);
-      addExpenseToTable(expense);
       saveToLocalStorage();
+      addExpenseToTable(expense);
       expenseForm.reset();
       no_data.style.display = "none";
       table.style.display = "block";
