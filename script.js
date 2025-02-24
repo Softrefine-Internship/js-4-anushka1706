@@ -184,7 +184,7 @@ function validateForm(name, date, amount, category) {
 
 function saveCategory() {
   const newCategory = categoryInput.value.trim();
-
+  console.log(newCategory);
   if (!newCategory || categories.includes(newCategory)) {
     alert("Please enter a unique category name!");
     return;
@@ -198,6 +198,7 @@ function saveCategory() {
   updateCategoryDropdown(newCategory);
   showPopup("New category added!");
   categoryInput.value = "";
+  loadCategory();
 }
 
 function updateCategoryDropdown(newCategory) {
