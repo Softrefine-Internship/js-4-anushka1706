@@ -125,22 +125,6 @@ document.addEventListener("click", function (event) {
   if (event.target.classList.contains("add-category-btn")) {
     saveCategory();
   }
-
-  if (event.target.classList.contains("delete-btn")) {
-    const expenseId = Number(event.target.dataset.id);
-    const index = allExpenses.findIndex((exp) => exp.id === expenseId);
-    if (index !== -1) {
-      allExpenses.splice(index, 1);
-      event.target.closest("tr").remove();
-      saveToLocalStorage();
-      calculateTotal();
-      if (allExpenses.length === 0) {
-        table.style.display = "none";
-        no_data.style.display = "block";
-      }
-      updateBorderRadius();
-    }
-  }
 });
 
 function addExpenseToTable(expense) {
@@ -156,6 +140,27 @@ function addExpenseToTable(expense) {
   expenseTableBody.appendChild(row);
   updateBorderRadius();
 }
+expenseTableBody.addEventListener("click", function (event) {
+  if (event.target.closest(".delete-btn")) {
+    const button = event.target.closest(".delete-btn");
+    const expenseId = Number(button.dataset.id);
+    const index = allExpenses.findIndex((exp) => exp.id === expenseId);
+
+    if (index !== -1) {
+      allExpenses.splice(index, 1);
+      button.closest("tr").remove();
+      saveToLocalStorage();
+      calculateTotal();
+
+      if (allExpenses.length === 0) {
+        table.style.display = "none";
+        no_data.style.display = "block";
+      }
+
+      updateBorderRadius();
+    }
+  }
+});
 
 function saveToLocalStorage() {
   localStorage.setItem("allExpenses", JSON.stringify(allExpenses));
@@ -193,7 +198,7 @@ function saveCategory() {
   if (!isNaN(newCategory)) {
     alert("Pleese dont enter number");
     categoryInput.value = "";
-    return
+    return;
   }
   categories.push(newCategory);
   console.log(categories);
