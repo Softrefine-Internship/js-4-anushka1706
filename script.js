@@ -7,6 +7,7 @@ const categorySelect = document.getElementById("category");
 const categoryInput = document.querySelector(".category-input");
 const no_data = document.querySelector(".no-data-message");
 const table = document.querySelector(".table-div");
+const category_section = document.querySelector(".add-category");
 // console.log(totalExp);
 document.addEventListener("DOMContentLoaded", () => {
   allExpenses.forEach(addExpenseToTable);
@@ -87,7 +88,12 @@ function calculateTotal() {
   localStorage.setItem("total", total);
   summary.textContent = total;
 }
-
+category_section.addEventListener("click", function (e) {
+  console.log("sdfghjkl;'")
+  if (e.target.classList.contains("add-category-btn")) {
+    saveCategory();
+  }
+});
 document.addEventListener("click", function (event) {
   if (
     event.target.classList.contains("add-expense-btn") ||
@@ -120,10 +126,6 @@ document.addEventListener("click", function (event) {
       table.style.display = "block";
       // categorySelect.value = " ";
     }
-  }
-
-  if (event.target.classList.contains("add-category-btn")) {
-    saveCategory();
   }
 });
 
