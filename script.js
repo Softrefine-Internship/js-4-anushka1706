@@ -187,10 +187,13 @@ function saveCategory() {
   console.log(newCategory);
   if (!newCategory || categories.includes(newCategory)) {
     alert("Please enter a unique category name!");
+    categoryInput.value = "";
     return;
   }
   if (!isNaN(newCategory)) {
     alert("Pleese dont enter number");
+    categoryInput.value = "";
+    return
   }
   categories.push(newCategory);
   console.log(categories);
