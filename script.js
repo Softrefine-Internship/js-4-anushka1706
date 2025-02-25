@@ -89,8 +89,8 @@ function calculateTotal() {
   summary.textContent = total;
 }
 category_section.addEventListener("click", function (e) {
-  console.log("sdfghjkl;'")
-  if (e.target.classList.contains("add-category-btn")) {
+  console.log("sdfghjkl;'");
+  if (e.target.closest(".add-category-btn")) {
     saveCategory();
   }
 });
