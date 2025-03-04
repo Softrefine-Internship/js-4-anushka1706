@@ -214,19 +214,25 @@ function saveCategory() {
 function updateCategoryDropdown(newCategory) {
   const option = document.createElement("option");
   option.value = newCategory;
-  option.textContent = newCategory;
-  categorySelect.appendChild(option);
+  option.textContent = newCategory.toLowerCase();
+  categorySelect.appendChild(option);                      
 }
 function loadCategory() {
-  const c = JSON.parse(localStorage.getItem("categories"));
-  if (c)
-    for (let i = 0; i < c.length; i++) {
+  const c = JSON.parse(localStorage.getItem("categories")) || [];
+  const existingOptions = new Set(
+    Array.from(categorySelect.options).map(option => option.value)
+  );
+
+  c.forEach(category => {
+    if (!existingOptions.has(category)) { 
       const option = document.createElement("option");
-      option.value = c[i];
-      option.textContent = c[i];
+      option.value = category;
+      option.textContent = category;
       categorySelect.appendChild(option);
     }
+  });
 }
+
 function showPopup(message) {
   const popup = document.querySelector(".popup");
   popup.classList.remove("show", "hide");
@@ -265,7 +271,7 @@ function updateBorderRadius() {
 function formatDate(inputDate) {
   const dateObj = new Date(inputDate);
   const day = String(dateObj.getDate()).padStart(2, "0");
-  const month = String(dateObj.getMonth() + 1).padStart(2, "0"); // Months are 0-based
+  const month = String(dateObj.getMonth() + 1).padStart(2, "0"); 
   const year = dateObj.getFullYear();
   return `${day}-${month}-${year}`;
 }
