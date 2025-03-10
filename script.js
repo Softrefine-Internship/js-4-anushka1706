@@ -70,7 +70,7 @@ function calculateCategory() {
 
       div.appendChild(mostSpentTag);
       div.style.background =
-        "linear-gradient(to bottom right, rgb(166, 115, 210), black)";
+        "linear-gradient(to bottom right, #a5caf2, #3f80d8)";
     }
   }
 }
