@@ -1,6 +1,12 @@
-const allExpenses = JSON.parse(localStorage.getItem("allExpenses")) || [];
-const categories = JSON.parse(localStorage.getItem("categories")) || [];
-const totalExp = JSON.parse(localStorage.getItem("total")) || 0;
+const allExpenses = localStorage.getItem("allExpenses")
+  ? JSON.parse(localStorage.getItem("allExpenses"))
+  : [];
+const totalExp = localStorage.getItem("total")
+  ? JSON.parse(localStorage.getItem("total"))
+  : 0;
+const categories = localStorage.getItem("categories")
+  ? JSON.parse(localStorage.getItem("categories"))
+  : [];
 const expenseForm = document.getElementById("expenseForm");
 const expenseTableBody = document.querySelector(".expenses_table tbody");
 const categorySelect = document.getElementById("category");
@@ -8,9 +14,14 @@ const categoryInput = document.querySelector(".category-input");
 const no_data = document.querySelector(".no-data-message");
 const table = document.querySelector(".table-div");
 const category_section = document.querySelector(".add-category");
+let existingOptions = [];
 // console.log(totalExp);
+console.log(categories);
 document.addEventListener("DOMContentLoaded", () => {
   allExpenses.forEach(addExpenseToTable);
+  // // const existingOptions = categorySelect.options.map((option) => option.value);
+  // console.log(categorySelect.options);return
+  loadDefaultOptions();
   loadCategory();
   calculateTotal();
   calculateCategory();
@@ -21,6 +32,19 @@ document.addEventListener("DOMContentLoaded", () => {
     no_data.style.display = "none";
   }
 });
+function loadDefaultOptions() {
+  console.log("anushka");
+  Array.from(categorySelect.options).forEach((option) => {
+    if (
+      !option.value == " " &&
+      !categories.includes(option.value.toLowerCase())
+    )
+      categories.push(option.value.toLowerCase());
+    existingOptions.push(option.value.toLowerCase());
+  });
+  localStorage.setItem("categories", JSON.stringify(categories));
+  console.log(existingOptions, "exsisting");
+}
 function calculateCategory() {
   const data = JSON.parse(localStorage.getItem("allExpenses")) || [];
   const cat_obj = {};
@@ -105,7 +129,10 @@ document.addEventListener("click", function (event) {
   if (event.target.classList.contains("add-expense-btn")) {
     const name = document.getElementById("name").value.trim();
     const date = document.getElementById("date").value;
-    const amount = document.getElementById("amount").value.trim();
+    const amount = Number(
+      parseFloat(document.getElementById("amount").value.trim()).toFixed(2)
+    );
+
     const category = categorySelect.value;
 
     if (validateForm(name, date, amount, category)) {
@@ -158,7 +185,6 @@ expenseTableBody.addEventListener("click", function (event) {
         table.style.display = "none";
         no_data.style.display = "block";
       }
-
       updateBorderRadius();
     }
   }
@@ -175,22 +201,18 @@ function validateForm(name, date, amount, category) {
     alert("Please fill in all fields!");
     return false;
   }
-
   if (!isNaN(name)) {
     alert("Expense name should be a string, not a number!");
     return false;
   }
-
-  if (isNaN(amount) || amount <= 0) {
+  if (isNaN(amount) || amount <= 0 || amount > 1000000) {
     alert("Amount should be a valid positive number!");
     return false;
   }
-
   return true;
 }
-
 function saveCategory() {
-  const newCategory = categoryInput.value.trim();
+  const newCategory = categoryInput.value.trim().toLowerCase();
   console.log(newCategory);
   if (!newCategory || categories.includes(newCategory)) {
     alert("Please enter a unique category name!");
@@ -208,23 +230,20 @@ function saveCategory() {
   updateCategoryDropdown(newCategory);
   showPopup("New category added!");
   categoryInput.value = "";
-  loadCategory();
+  // loadCategory();
 }
 
 function updateCategoryDropdown(newCategory) {
   const option = document.createElement("option");
   option.value = newCategory;
   option.textContent = newCategory.toLowerCase();
-  categorySelect.appendChild(option);                      
+  categorySelect.appendChild(option);
 }
 function loadCategory() {
   const c = JSON.parse(localStorage.getItem("categories")) || [];
-  const existingOptions = new Set(
-    Array.from(categorySelect.options).map(option => option.value)
-  );
-
-  c.forEach(category => {
-    if (!existingOptions.has(category)) { 
+  c.forEach((category) => {
+    if (!existingOptions.includes(category.toLowerCase())) {
+      // categorySelect.innerHTML = "";
       const option = document.createElement("option");
       option.value = category;
       option.textContent = category;
@@ -271,7 +290,7 @@ function updateBorderRadius() {
 function formatDate(inputDate) {
   const dateObj = new Date(inputDate);
   const day = String(dateObj.getDate()).padStart(2, "0");
-  const month = String(dateObj.getMonth() + 1).padStart(2, "0"); 
+  const month = String(dateObj.getMonth() + 1).padStart(2, "0");
   const year = dateObj.getFullYear();
   return `${day}-${month}-${year}`;
 }
